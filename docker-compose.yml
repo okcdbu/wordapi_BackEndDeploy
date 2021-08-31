@@ -3,11 +3,10 @@ version: "3"
 services:
   web:
     image: okcdbu/wordapi_web
-    command: python manage.py runserver 0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: always
     ports:
       - "8000:8000"
-    volumes:
-      - .:/web
     depends_on:
       - db
   db:
@@ -15,5 +14,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - /data:/var/lib/postgresql/data/pgdata
+      - ./data:/var/lib/postgresql/data
