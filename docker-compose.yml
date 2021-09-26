@@ -1,7 +1,14 @@
 version: "3"
 
 services:
-  web:
+  frontend:
+    image: okcdbu/front
+    command: node app.js
+    volumes: 
+      - ./:/app
+    ports:
+      - "80:80"
+  backend:
     image: okcdbu/wordapi_web
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     restart: always
